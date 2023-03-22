@@ -58,31 +58,35 @@ interface PhoneInputProps{
   value3: string;
   onClick?: (value: string) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onButton?: boolean;
+  error: string;
 }
 
-function PhoneInput({onClick, onChange, value1, value2, value3} : PhoneInputProps){
+function PhoneInput({onChange, value1, value2, value3, error} : PhoneInputProps){
   const selectItems = ["010", "011", "016", "017", "018", "019"];
 
   return (
     <div>
       <label htmlFor="phone">휴대폰번호</label>
       <div>
-      <PhoneSelectInput
+        <PhoneSelectInput
           selectItems={selectItems}
-          onClick={onClick}
           checkItem={value1}
-          width="150px"
-          radius="5px"
-          padding="16px 14px 16px 0"
+          onChange={onChange}
         />
         <input 
-        type="number" 
+        name="phone2"
+        type="text"
+        onChange={onChange}
+        value={value2}
         />
         <input 
-        type="number" 
+        name="phone3"
+        type="text"
+        onChange={onChange}
+        value={value3}
         />
       </div>
+      {error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
     </div>
   )
 

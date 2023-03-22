@@ -13,6 +13,7 @@ export type SvgIconId =
 |'icon-minus-line'
 |'icon-plus'
 |'icon-down-arrow'
+|'icon-up-arrow'
 
  interface SvgIconProps {
   id: SvgIconId | string;

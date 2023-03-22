@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState, useRef} from 'react'
+import { SVGIcon } from '../../icon/SVGIcon';
 
 type PhoneSelectInputProps = {
-  selectItems?: string[];
+  selectItems: string[];
   onClick?: (selected: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checkItem?: string;
   width?: string;
   minWidth?: string;
@@ -13,6 +15,7 @@ type PhoneSelectInputProps = {
 };
 
 function PhoneSelectInput({selectItems, onClick,
+onChange,
 checkItem,
 width,
 maxWidth,
@@ -22,17 +25,48 @@ padding,
 textAlign,
 }: PhoneSelectInputProps) {
 
+  const [optionToggle, setOptionToggle] = useState(false);
+  const [selectValue, setSelectValue] = useState("");
+  const selectValueRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
+
+  const handleChangeOption = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(optionToggle === true){
+      setOptionToggle(false)
+    }else{
+      setOptionToggle(true)
+    }
+    
+  }
+
+  const handleSelectValue = (e: React.MouseEvent<HTMLElement>) => {
+    const value = e.target 
+    onChange?.(e.target);
+    // setSelectValue(value.innerText);
+  }
+  
+
   return (
     <div>
-      <select>
-        <option value="">::선택::</option>
-        <option value="011">011</option>
-        <option value="016">016</option>
-        <option value="017">017</option>
-        <option value="019">019</option>
-        <option value="010">010</option>
-      </select>
+      <input 
+        value={selectValue !== "" ? selectValue : selectItems[0]}
+        onChange={onChange}
+      />
+      <button onClick={handleChangeOption}>
+      {
+        optionToggle === true ? <SVGIcon id='icon-down-arrow'/> : <SVGIcon id='icon-up-arrow'/>
+      }
+      </button>
+      {
+        optionToggle === true ? 
+        <div>
+          {selectItems.map<React.ReactNode>((value) => {
+            return <input onClick={handleSelectValue}>{value}</input>
+          })}
+        </div> : null
+      }
+
     </div>
+    
   )
 }
 

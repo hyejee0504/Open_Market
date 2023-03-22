@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {CommonInput} from "../joininput/JoinInput"
-import {PhoneSelectInput} from "../joininput/PhoneSelectInput"
+import {CommonInput,  PhoneInput} from "../joininput/JoinInput"
 import checkOnIcon from "../../../asset/icon-check-on.svg";
 import checkOffIcon from "../../../asset/icon-check-off.svg";
 
@@ -91,11 +90,16 @@ export default function JoinInputForm() {
     }else{
       setUserFormValue({...userFormValue, [name] : value});
       setErrorMessage({...errorMessage, [name] : message});
-    }
+    } 
+  }
+
+  //핸드폰 변경 함수
+  const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    console.log(value);
     
 
-  
-  
+    
   }
 
 
@@ -103,11 +107,6 @@ export default function JoinInputForm() {
     e.preventDefault();
     
     }
-
-
-
-
-
 
   return (
     <form onSubmit={onSubmit}>
@@ -146,7 +145,13 @@ export default function JoinInputForm() {
       error={errorMessage.name}
       value={userFormValue.name}
       />
-      <PhoneSelectInput/>
+      <PhoneInput
+      onChange={onChangePhoneNumber}
+      value1={userFormValue.phone1}
+      value2={userFormValue.phone2}
+      value3={userFormValue.phone3}
+      error={errorMessage.phone}
+      />
     </form>
   )
 }
