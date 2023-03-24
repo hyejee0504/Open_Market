@@ -56,12 +56,13 @@ interface PhoneInputProps{
   value1: string;
   value2: string;
   value3: string;
-  onClick?: (value: string) => void;
+  onClick: (selected: string) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: string;
+  maxlength?: string;
 }
 
-function PhoneInput({onChange, value1, value2, value3, error} : PhoneInputProps){
+function PhoneInput({onChange, onClick, value1, value2, value3, error, maxlength} : PhoneInputProps){
   const selectItems = ["010", "011", "016", "017", "018", "019"];
 
   return (
@@ -71,31 +72,68 @@ function PhoneInput({onChange, value1, value2, value3, error} : PhoneInputProps)
         <PhoneSelectInput
           selectItems={selectItems}
           checkItem={value1}
-          onChange={onChange}
+          onClick={onClick}
         />
         <input 
         name="phone2"
         type="text"
         onChange={onChange}
         value={value2}
+        maxLength={Number(4)}
         />
         <input 
         name="phone3"
         type="text"
         onChange={onChange}
         value={value3}
+        maxLength={Number(4)}
         />
       </div>
-      {error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
+      {(value2 || value3 )&& error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
     </div>
   )
+}
+
+//회원가집 중 EmailInput에 들어가는 props의 자료형을 정함.
+interface EmailInputProps{
+  value1: string;
+  value2: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
+}
 
 
+function EmailInput ({value1, value2, onChange, error} : EmailInputProps) {
+return(
+  <div>
+    <S.LabelText htmlFor="email">이메일</S.LabelText>
+    <S.Input 
+      id='email'
+      type='text'
+      name='email1'
+      onChange={onChange}
+      value={value1}
+      autoComplete='off'
+      width="218px"
+    />
+    <span>@</span>
+    <S.Input 
+      id='email'
+      type='text'
+      name='email2'
+      onChange={onChange}
+      value={value2}
+      autoComplete='off'
+      width="218px"
+    />
+    {(value1 || value2 )&& error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
+  </div>
+)
 }
 
 
 
-export {CommonInput, PhoneInput, }
+export {CommonInput, PhoneInput, EmailInput}
 /*
 input태그에 필요한 것: label, name, type, 버튼이 있는지(onclick), icon이 있는지, 가로가 틀리면 가로길이, onchange, error, value
 

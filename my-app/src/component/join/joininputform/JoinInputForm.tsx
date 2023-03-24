@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {CommonInput,  PhoneInput} from "../joininput/JoinInput"
+import {CommonInput,  PhoneInput, EmailInput} from "../joininput/JoinInput"
 import checkOnIcon from "../../../asset/icon-check-on.svg";
 import checkOffIcon from "../../../asset/icon-check-off.svg";
 
@@ -31,14 +31,27 @@ export default function JoinInputForm() {
     registrationNumber: "",
   };
 
+  const initialSellerValues = {
+    registrationNumber: "",
+    storeName: "",
+  };
+
   //아이디 중복 확인 버튼
   const [onUsernameBtn, setOnUsernameBtn] = useState(true);
+
+  //사업자 등록번호 인증 버튼
+  const [onRegistrationBtn, setRegistrationBtn] = useState(false);
 
   //유저 정보 상태
   const [userFormValue, setUserFormValue] = useState(initialValues);
 
   //에러 메세지 상태
   const [errorMessage, setErrorMessage] = useState(initialError);
+
+  //판매자 추가 정보
+  const [sellerValues, setSellerValues] = useState(initialSellerValues);
+
+  
 
   
 
@@ -93,15 +106,63 @@ export default function JoinInputForm() {
     } 
   }
 
-  //핸드폰 변경 함수
-  const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    console.log(value);
-    
-
-    
+  //핸드폰 버튼 함수 - phone1 값 변경
+  const onClickPhone = (selected : string) => {
+    setUserFormValue({...userFormValue, "phone1": selected });
   }
 
+  //핸드폰 변경 함수
+  const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const message = "* 숫자로만 작성해주세요.";
+    const phoneRegExp = "^[0-9]{1,4}$";
+
+    if(value.match(phoneRegExp)){
+      setUserFormValue({...userFormValue, [name] : value});
+      setErrorMessage({...errorMessage, "phone" : ""});
+    }else{
+      setUserFormValue({...userFormValue, [name] : value});
+      setErrorMessage({...errorMessage, "phone" : message});
+    } 
+  }
+
+  //이메일 변경 함수
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    
+    const message = "* 이메일 형식을 확인해주세요.";
+    const email1RegExp = "^[a-zA-Z0-9]*$";
+    const email2RegExp = "([a-zA-Z0-9_][-a-zA-Z0-9_]*(.[-a-zA-Z0-9_]+)*.([cC][oO][mM]))(:[0-9]{1,5})?";
+
+
+    const regExp = name === "email1" ? email1RegExp : email2RegExp;
+    if(value.match(regExp)){
+      setUserFormValue({...userFormValue, [name] : value});
+      setErrorMessage({...errorMessage, "email" : ""});
+    }else{
+      setUserFormValue({...userFormValue, [name] : value});
+      setErrorMessage({...errorMessage, "email" : message});
+    } 
+  }
+
+  //사업자 등록 번호 인증 
+  const checkRegistrationNumber = (number: string) => {
+
+  }
+
+  //사업자 등록 번호 변경 함수
+  const onChangeRegistrationNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  
+
+  
+
+  }
+
+  const onChangeStoreName = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  }
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -147,11 +208,38 @@ export default function JoinInputForm() {
       />
       <PhoneInput
       onChange={onChangePhoneNumber}
+      onClick={onClickPhone}
       value1={userFormValue.phone1}
       value2={userFormValue.phone2}
       value3={userFormValue.phone3}
       error={errorMessage.phone}
       />
+      <EmailInput
+        onChange={onChangeEmail}
+        value1={userFormValue.email1}
+        value2={userFormValue.email2}
+        error={errorMessage.email}
+      />
+      <>
+              <CommonInput
+                label="사업자 등록번호"
+                type="text"
+                name="registrationNumber"
+                width="346px"
+                onChange={onChangeRegistrationNumber}
+                onClick={checkRegistrationNumber}
+                onButton={onRegistrationBtn}
+                // error={companyMessage || errorMessage.registrationNumber}
+                value={sellerValues.registrationNumber}
+              />
+              <CommonInput
+                label="스토어 이름"
+                type="text"
+                name="storeName"
+                onChange={onChangeStoreName}
+                value={sellerValues.storeName}
+              />
+            </>
     </form>
   )
 }
