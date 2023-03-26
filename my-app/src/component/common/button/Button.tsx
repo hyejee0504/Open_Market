@@ -9,9 +9,6 @@ interface CommonBtnProps{
     icon?: string | SvgIconId;
     width?: string;
     color?: string;
-
-
-
 }
 
 function CommonBtn({...props} : CommonBtnProps) {
