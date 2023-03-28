@@ -5,7 +5,7 @@ import axios from "axios";
 const BASE_URL = "https://openmarket.weniv.co.kr";
 
 //회원가입 데이터 타입
-interface JoinDataForm {
+export interface JoinDataForm {
     username: string;
     password: string;
     password2: string;
@@ -17,14 +17,28 @@ interface JoinDataForm {
 }
 
 interface JoinState {
-    nameStatus : string;
+    joinStatus: string;
 
+    error: string;
+    userType: string;
+
+    nameStatus: string;
+    nameMessage: string;
+    companyNumberStatus: string;
+    companyMessage: string;
 }
 
 
 const initialState: JoinState = {
-
-    nameStatus : ""
+    joinStatus: "idle",
+  
+    error: "",
+    userType: "BUYER",
+  
+    nameStatus: "idle",
+    nameMessage: "",
+    companyNumberStatus: "idle",
+    companyMessage: "",
   }
 
 //아이디 유효성 검증
@@ -45,7 +59,7 @@ export const fetchPostUserName = createAsyncThunk(
 //사업자 등록 번호 검증
 export const fetchPostCompanyNum = createAsyncThunk(
     "join/fetchPostCompanyNum",
-    async (company_registration_number: number, { rejectWithValue }) => {
+    async (company_registration_number: string, { rejectWithValue }) => {
       try {
         const data = { company_registration_number };
         const result = await axios.post(`${BASE_URL}/accounts/signup/valid/`, data);
@@ -64,14 +78,14 @@ export const fetchPostCompanyNum = createAsyncThunk(
     {
         const url = 
         userType === "BUYER" ? `${BASE_URL}/accounts/signup/` : `${BASE_URL}/accounts/signup_seller/`;
-
-      try {
-        const data = userData;
-        const result = await axios.post(url, data);
-        console.log(result.data);
-        return result.data;
-      } catch (error: any) {
-        return rejectWithValue(error.response);
+        
+        try {
+            const data = userData;
+            const result = await axios.post(url, data);
+            console.log(result.data);
+            return result.data;} 
+        catch (error: any) {
+            return rejectWithValue(error.response);
       }
     }
   );
@@ -84,24 +98,84 @@ export const fetchPostCompanyNum = createAsyncThunk(
         },
         extraReducers: (builder) => {
             //아이디 검증
-            builder.addCase(fetchPostUserName.pending, (state) => {
+            builder.addCase(fetchPostUserName.pending, (state = initialState) => {
                 state.nameStatus = "loading";
-
+                state.nameMessage = "";
+                state.error = "";
             });
-            builder.addCase(fetchPostUserName.fulfilled, (state) => {
+            builder.addCase(fetchPostUserName.fulfilled, (state = initialState , action) => {
                 state.nameStatus = "succeeded";
+                state.nameMessage = action.payload.Success;
+            });
+            builder.addCase(fetchPostUserName.rejected, (state = initialState, action) => {
+                state.nameStatus = "failed";
+                if (action.payload) {
+                    state.nameMessage = action.payload as string;
+                  } else {
+                    state.error = action.error.message || "Something is wrong in username:<";
+                  }
 
             });
-            builder.addCase(fetchPostUserName.rejected, (state) => {
-                state.nameStatus = "failed";
 
-            })
+            //사업자등록번호 검증
+            builder.addCase(fetchPostCompanyNum.pending, (state = initialState) => {
+                state.companyNumberStatus = "loading";
+                state.companyMessage = "";
+                state.error = "";
+                
+            });
+            builder.addCase(fetchPostCompanyNum.fulfilled, (state = initialState, action) => {
+                state.companyNumberStatus = "succeeded";
+                state.companyMessage = action.payload.Success;
+
+            });
+            builder.addCase(fetchPostCompanyNum.rejected, (state = initialState, action) => {
+                state.companyNumberStatus = "failed";
+                if (action.payload) {
+                    state.companyMessage = action.payload as string;
+                  } else {
+                    state.error = action.error.message || "Something is wrong in company number:<";
+                  }
+
+            });
+
+            //회원가입 - 구매자
+            builder.addCase(fetchPostJoin.pending, (state = initialState) => {
+                state.joinStatus = "loading";
+                
+            });
+            builder.addCase(fetchPostJoin.fulfilled, (state = initialState) => {
+                state.joinStatus = "succeeded";
+            });
+            builder.addCase(fetchPostJoin.rejected, (state = initialState, action) => {
+                state.joinStatus = "failed";
+                if (action.payload) {
+                    state.error = action.payload as string;
+                  } else {
+                    state.error = action.error.message || "Something is wrong in Join:<";
+                  }
+
+            });
 
 
-        }
-        
+
+        }  
     })
 
     /*extraReducers를 사용하는 이유 : 비동기를 위해 createAsyncThunk 를 사용하여 정의된 액션함수를 사용하거나, 다른 slice 에서 정의된 액션함수를 사용하는 경우 */
+    export const getJoinStatus = (state: RootState) => state.join.joinStatus;
+    export const getJoinError = (state: RootState) => state.join.error;
+
+    export const getNameStatus = (state: RootState) => state.join.nameStatus;
+    export const getNameMessage = (state: RootState) => state.join.nameMessage;
+
+    export const getCompanyStatus = (state: RootState) => state.join.companyNumberStatus;
+    export const getCompanyMessage = (state: RootState) => state.join.companyMessage;
+    
+
+    
+    export const getJoinUserType = (state: RootState) => state.join.userType;
+
+    export default joinSlice.reducer;
 
 

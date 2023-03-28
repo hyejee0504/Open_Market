@@ -40,11 +40,11 @@ function CommonInput ({ onClick, onChange, onButton, error, value, icon,...props
         autoComplete='off'
         ref={inputRef}
         />
-        {onButton && (
+        {onButton === false || onButton === true ? (
             <CommonBtn onClick={handleBtnClick} disabled={!onButton} width='122px'>
                 {props.name === "username" ? "중복확인" : "인증"}
             </CommonBtn>
-        )}
+        ) : null}
         {value !== "" && error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
     </S.CommonInput>
 

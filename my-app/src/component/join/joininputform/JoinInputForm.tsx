@@ -1,11 +1,39 @@
 import React, {useState} from 'react';
 import {CommonInput,  PhoneInput, EmailInput} from "../joininput/JoinInput"
-import checkOnIcon from "../../../asset/icon-check-on.svg";
-import checkOffIcon from "../../../asset/icon-check-off.svg";
+import checkOnIcon from "../../../asset/icon/icon-check-on.svg";
+import checkOffIcon from "../../../asset/icon/icon-check-off.svg";
+import {
+  fetchPostUserName,
+  fetchPostCompanyNum,
+  fetchPostJoin,
+  getNameStatus,
+  getNameMessage,
+  getCompanyStatus,
+  getCompanyMessage,
+  getJoinStatus,
+  getJoinError,
+  getJoinUserType,
+  JoinDataForm
+} from "../../../features/joinSlice"
+import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
+import { AppDispatch } from '../../../store/store';
 
 
 
 export default function JoinInputForm() {
+
+  const dispatch = useAppDispatch();
+
+  const userType = useAppSelector(getJoinUserType);
+
+  const nameStatus = useAppSelector(getNameStatus);
+  const companyStatus = useAppSelector(getCompanyStatus);
+  const registerStatus = useAppSelector(getJoinStatus);
+  const registerError = useAppSelector(getJoinError);
+
+  const nameMessage = useAppSelector(getNameMessage);
+  const companyMessage = useAppSelector(getCompanyMessage);
+
   //정보 객체 생성
   const initialValues = {
     username: "",
@@ -28,19 +56,19 @@ export default function JoinInputForm() {
     name: "",
     phone: "",
     email: "",
-    registrationNumber: "",
+    companyRegistrationNumber: "",
   };
 
   const initialSellerValues = {
-    registrationNumber: "",
+    CompanyregistrationNumber: "",
     storeName: "",
   };
 
   //아이디 중복 확인 버튼
-  const [onUsernameBtn, setOnUsernameBtn] = useState(true);
+  const [onUsernameBtn, setOnUsernameBtn] = useState(false);
 
   //사업자 등록번호 인증 버튼
-  const [onRegistrationBtn, setRegistrationBtn] = useState(false);
+  const [onCompanyRegistrationBtn, setCompanyRegistrationBtn] = useState(false);
 
   //유저 정보 상태
   const [userFormValue, setUserFormValue] = useState(initialValues);
@@ -52,12 +80,34 @@ export default function JoinInputForm() {
   const [sellerValues, setSellerValues] = useState(initialSellerValues);
 
   
-
+  //아이디 중복확인 함수
+  const checkUserNameVaild = (username: string) => {
+    dispatch(fetchPostUserName(username));
+  }
   
 
 
   //아이디 변경 함수
   const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(nameStatus !== "idle"){
+
+    }else{
+      const {name, value} = e.target;
+      const message = "* 아이디는 3-20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.";
+      const usernameRegExp = "^[A-Za-z0-9]{3,20}$";
+
+      if(value.match(usernameRegExp)){
+        setUserFormValue({...userFormValue, [name] : value});
+        setErrorMessage({...errorMessage, [name] : ""});
+        setOnUsernameBtn(true);
+      }else{
+        setUserFormValue({...userFormValue, [name] : value});
+        setErrorMessage({...errorMessage, [name] : message});
+        setOnUsernameBtn(false);
+      }
+
+
+    }
   
 
   }
@@ -147,12 +197,12 @@ export default function JoinInputForm() {
   }
 
   //사업자 등록 번호 인증 
-  const checkRegistrationNumber = (number: string) => {
-
+  const checkCompanyRegistrationNumber = (number: string) => {
+    dispatch(fetchPostCompanyNum(number));
   }
 
   //사업자 등록 번호 변경 함수
-  const onChangeRegistrationNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeCompanyRegistrationNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
 
   
 
@@ -179,6 +229,8 @@ export default function JoinInputForm() {
       width='346px'
       onChange={onChangeUsername}
       value={userFormValue.username}
+      onClick={checkUserNameVaild}
+      error={errorMessage.username}
       />
       <CommonInput
       label='비밀번호'
@@ -224,13 +276,13 @@ export default function JoinInputForm() {
               <CommonInput
                 label="사업자 등록번호"
                 type="text"
-                name="registrationNumber"
+                name="companyRegistrationNumber"
                 width="346px"
-                onChange={onChangeRegistrationNumber}
-                onClick={checkRegistrationNumber}
-                onButton={onRegistrationBtn}
+                onChange={onChangeCompanyRegistrationNumber}
+                onClick={checkCompanyRegistrationNumber}
+                onButton={onCompanyRegistrationBtn}
                 // error={companyMessage || errorMessage.registrationNumber}
-                value={sellerValues.registrationNumber}
+                value={sellerValues.CompanyregistrationNumber}
               />
               <CommonInput
                 label="스토어 이름"
