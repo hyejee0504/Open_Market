@@ -203,7 +203,25 @@ export default function JoinInputForm() {
 
   //사업자 등록 번호 변경 함수
   const onChangeCompanyRegistrationNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(companyStatus !== "idle"){
 
+    }else{
+      const {name, value} = e.target;
+      const message = "* 아이디는 3-20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.";
+      const usernameRegExp = "^[A-Za-z0-9]{3,20}$";
+
+      if(value.match(usernameRegExp)){
+        setUserFormValue({...userFormValue, [name] : value});
+        setErrorMessage({...errorMessage, [name] : ""});
+        setOnUsernameBtn(true);
+      }else{
+        setUserFormValue({...userFormValue, [name] : value});
+        setErrorMessage({...errorMessage, [name] : message});
+        setOnUsernameBtn(false);
+      }
+
+
+    }
   
 
   
