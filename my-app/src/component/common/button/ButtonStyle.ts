@@ -4,13 +4,21 @@ interface CommonBtnProps{
     icon?: string;
     width?: string;
     color?: string;
-
+    disabled?: boolean;
 
 
 }
 
 const CommonBtn = styled.button<CommonBtnProps>`
     width: ${({width}) => (width ? width : "100%")};
+    background-color: var(--color-main);
+    color: var(--color-white);
+    height: 54px;
+    border-radius: 5px;
+    &:disabled{
+        background-color: var(--color-grey);
+        cursor: default;
+    }
 `;
 
 export {CommonBtn}

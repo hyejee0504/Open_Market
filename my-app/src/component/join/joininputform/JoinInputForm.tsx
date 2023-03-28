@@ -17,6 +17,7 @@ import {
 } from "../../../features/joinSlice"
 import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
 import { AppDispatch } from '../../../store/store';
+import { CommonBtn } from '../../common/button/ButtonStyle';
 
 
 
@@ -60,7 +61,7 @@ export default function JoinInputForm() {
   };
 
   const initialSellerValues = {
-    CompanyregistrationNumber: "",
+    companyRegistrationNumber: "",
     storeName: "",
   };
 
@@ -179,8 +180,6 @@ export default function JoinInputForm() {
   //이메일 변경 함수
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(name, value);
-    
     const message = "* 이메일 형식을 확인해주세요.";
     const email1RegExp = "^[a-zA-Z0-9]*$";
     const email2RegExp = "([a-zA-Z0-9_][-a-zA-Z0-9_]*(.[-a-zA-Z0-9_]+)*.([cC][oO][mM]))(:[0-9]{1,5})?";
@@ -207,31 +206,31 @@ export default function JoinInputForm() {
 
     }else{
       const {name, value} = e.target;
-      const message = "* 아이디는 3-20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.";
-      const usernameRegExp = "^[A-Za-z0-9]{3,20}$";
+      const message = "* 사업자 등록 번호는 숫자 10자로 입력해주세요.";
+      const companyNumRegExp = "^[0-9]{1,10}$";
 
-      if(value.match(usernameRegExp)){
-        setUserFormValue({...userFormValue, [name] : value});
-        setErrorMessage({...errorMessage, [name] : ""});
-        setOnUsernameBtn(true);
+      setSellerValues({...sellerValues, [name] : value});
+      if(value.match(companyNumRegExp)){
+        if((value.length > 0 && value.length < 10) || value.length > 10){
+          setErrorMessage({...errorMessage, [name] : message});
+          setCompanyRegistrationBtn(false);
+        }else{
+          setErrorMessage({...errorMessage, [name] : ""});
+          setCompanyRegistrationBtn(true);
+        }
       }else{
-        setUserFormValue({...userFormValue, [name] : value});
         setErrorMessage({...errorMessage, [name] : message});
-        setOnUsernameBtn(false);
+        setCompanyRegistrationBtn(false);
       }
-
-
     }
-  
-
-  
-
   }
 
+  //스토어 이름 변경
   const onChangeStoreName = (e: React.ChangeEvent<HTMLInputElement>) => {
-
+    setSellerValues({...sellerValues, "storeName" : e.target.value})
   }
 
+  //회원가입 제출하기
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
@@ -291,25 +290,26 @@ export default function JoinInputForm() {
         error={errorMessage.email}
       />
       <>
-              <CommonInput
-                label="사업자 등록번호"
-                type="text"
-                name="companyRegistrationNumber"
-                width="346px"
-                onChange={onChangeCompanyRegistrationNumber}
-                onClick={checkCompanyRegistrationNumber}
-                onButton={onCompanyRegistrationBtn}
-                // error={companyMessage || errorMessage.registrationNumber}
-                value={sellerValues.CompanyregistrationNumber}
-              />
-              <CommonInput
-                label="스토어 이름"
-                type="text"
-                name="storeName"
-                onChange={onChangeStoreName}
-                value={sellerValues.storeName}
-              />
-            </>
+        <CommonInput
+          label="사업자 등록번호"
+          type="text"
+          name="companyRegistrationNumber"
+          width="346px"
+          onChange={onChangeCompanyRegistrationNumber}
+          onClick={checkCompanyRegistrationNumber}
+          onButton={onCompanyRegistrationBtn}
+          error={companyMessage || errorMessage.companyRegistrationNumber}
+          value={sellerValues.companyRegistrationNumber}
+        />
+        <CommonInput
+          label="스토어 이름"
+          type="text"
+          name="storeName"
+          onChange={onChangeStoreName}
+          value={sellerValues.storeName}
+        />
+      </>
+      <CommonBtn type='submit'>가입하기</CommonBtn>
     </form>
   )
 }
