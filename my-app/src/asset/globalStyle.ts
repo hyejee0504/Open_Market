@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
-
+import "./fonts/fonts.css"
 export const GlobalStyle = createGlobalStyle`
     ${reset}
 
@@ -23,8 +23,8 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     html, button, input, textArea{
-    font-size: 10px;
-    font-family: SpoqaHanSansNeo, sans-serif;
+    font-size: 16px;
+    font-family: "SpoqaHanSansNeo-Regular", sans-serif;
   } 
 
     .ir {

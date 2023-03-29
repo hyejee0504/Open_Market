@@ -116,8 +116,9 @@ export default function JoinInputForm() {
   //패스워드 변경 함수
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
-    const message = "비밀번호는 영문, 숫자 조합 8-20자리를 입력해주세요.";
-    const passwordRegExp = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$";
+    const message = "* 비밀번호는 영문, 숫자 조합 8-20자리를 입력해주세요.";
+    const passwordRegExp = "^[A-Za-z0-9]{8,20}$";
+
     
     if(value.match(passwordRegExp)){
       setUserFormValue({...userFormValue, [name] : value});
@@ -165,8 +166,8 @@ export default function JoinInputForm() {
   //핸드폰 변경 함수
   const onChangePhoneNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const message = "* 숫자로만 작성해주세요.";
-    const phoneRegExp = "^[0-9]{1,4}$";
+    const message = "* 휴대폰번호 형식을 확인해주세요.";
+    const phoneRegExp = "^[0-9]{3,4}$";
 
     if(value.match(phoneRegExp)){
       setUserFormValue({...userFormValue, [name] : value});

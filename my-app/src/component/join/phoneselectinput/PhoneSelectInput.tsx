@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { SVGIcon } from '../../icon/SVGIcon';
+import * as S from "./PhoneSelectInputStyle";
 
 type PhoneSelectInputProps = {
   selectItems: string[];
@@ -43,28 +44,28 @@ textAlign,
   
 
   return (
-    <div>
-      <div>
-        <input 
+    <S.PhoneSelectInputWrapper>
+      <S.SelectBox>
+        <S.SelectInput 
           value={selectValue !== "" ? selectValue : selectItems[0]}
         />
         <button onClick={handleChangeOption}>
         {
-          optionToggle === false ? <SVGIcon id='icon-down-arrow'/> : <SVGIcon id='icon-up-arrow'/>
+          optionToggle === false ? <SVGIcon id='icon-down-arrow' width="25px"/> : <SVGIcon id='icon-up-arrow' width="25px"/>
         }
         </button>
-      </div>
+      </S.SelectBox>
         {
           optionToggle === true ? 
-          <ul>
+          <S.OptionBox>
             {selectItems.map((item, index) => {
               return <li key={index}>
                 <button type='button' onClick={() => handleSelectValue(item)}>{item}</button>
               </li>
             })}
-          </ul> : null
+          </S.OptionBox> : null
         }
-    </div>
+    </S.PhoneSelectInputWrapper>
   )
 }
 

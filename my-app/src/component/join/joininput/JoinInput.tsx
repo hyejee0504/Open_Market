@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import * as S from "./JoinInputStyle";
 import { CommonBtn } from '../../common/button/ButtonStyle';
 import { SVGIcon } from '../../icon/SVGIcon';
-import { PhoneSelectInput } from './PhoneSelectInput';
+import { PhoneSelectInput } from '../phoneselectinput/PhoneSelectInput';
 
 //JoinInput에 들어가는 props의 자료형을 정함.
 interface CommonInputProps{
@@ -39,6 +39,7 @@ function CommonInput ({ onClick, onChange, onButton, error, value, icon,...props
         icon={icon}
         autoComplete='off'
         ref={inputRef}
+        error={error}
         />
         {onButton === false || onButton === true ? (
             <CommonBtn onClick={handleBtnClick} disabled={!onButton} width='122px'>
@@ -66,31 +67,33 @@ function PhoneInput({onChange, onClick, value1, value2, value3, error, maxlength
   const selectItems = ["010", "011", "016", "017", "018", "019"];
 
   return (
-    <div>
-      <label htmlFor="phone">휴대폰번호</label>
+    <S.PhoneInputWrapper>
+      <S.LabelText htmlFor="phone">휴대폰번호</S.LabelText>
       <div>
         <PhoneSelectInput
           selectItems={selectItems}
           checkItem={value1}
           onClick={onClick}
         />
-        <input 
+        <S.PhoneInput 
         name="phone2"
-        type="text"
+        type="number"
         onChange={onChange}
         value={value2}
         maxLength={Number(4)}
+        error={error}
         />
-        <input 
+        <S.PhoneInput
         name="phone3"
-        type="text"
+        type="number"
         onChange={onChange}
         value={value3}
         maxLength={Number(4)}
+        error={error}
         />
       </div>
       {(value2 || value3 )&& error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
-    </div>
+    </S.PhoneInputWrapper>
   )
 }
 
@@ -116,7 +119,7 @@ return(
       autoComplete='off'
       width="218px"
     />
-    <span>@</span>
+    <span style={{padding : "0px 12px"}}>@</span>
     <S.Input 
       id='email'
       type='text'
