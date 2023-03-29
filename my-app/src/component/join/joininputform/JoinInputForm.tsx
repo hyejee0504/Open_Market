@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {CommonInput,  PhoneInput, EmailInput} from "../joininput/JoinInput"
+import { Link } from 'react-router-dom';
 import checkOnIcon from "../../../asset/icon/icon-check-on.svg";
 import checkOffIcon from "../../../asset/icon/icon-check-off.svg";
 import {
@@ -18,6 +19,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
 import { AppDispatch } from '../../../store/store';
 import { CommonBtn } from '../../common/button/ButtonStyle';
+import { CheckBoxInput } from '../../common/checkbox/CheckBoxInput';
 
 
 
@@ -231,6 +233,15 @@ export default function JoinInputForm() {
     setSellerValues({...sellerValues, "storeName" : e.target.value})
   }
 
+  //체크 박스 확인
+  const onChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserFormValue({...userFormValue, "checkBox" : e.target.checked})   
+    console.log(e.target.checked);
+     
+  }
+
+
+
   //회원가입 제출하기
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -310,6 +321,8 @@ export default function JoinInputForm() {
           value={sellerValues.storeName}
         />
       </>
+      <CheckBoxInput onChange={onChangeCheckbox} checked={userFormValue.checkBox} children={undefined}/> <span style={{color : "var(--color-grey)"}}>호두샵의 <Link to="/">이용약관</Link> 및 <Link to="/">개인정보처리방침</Link>에 대한 내용을 확인하였고 동의합니다.</span>
+      
       <CommonBtn type='submit'>가입하기</CommonBtn>
     </form>
   )

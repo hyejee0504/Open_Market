@@ -10,7 +10,7 @@ interface CommonBtnProps{
 }
 
 const CommonBtn = styled.button<CommonBtnProps>`
-    width: ${({width}) => (width ? width : "100%")};
+    width: ${({width}) => (width ? width : "480px")};
     background-color: var(--color-main);
     color: var(--color-white);
     height: 54px;

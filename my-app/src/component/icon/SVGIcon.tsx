@@ -14,6 +14,8 @@ export type SvgIconId =
   |'icon-plus'
   |'icon-down-arrow'
   |'icon-up-arrow'
+  | "check-fill-box"
+  | "check-box"
 
  interface SvgIconProps {
   id: SvgIconId | string;
@@ -26,7 +28,7 @@ export type SvgIconId =
 
 function SVGIcon({id, label=undefined, width=24, height=24, alt, fill = 'currentColor'}: SvgIconProps) {
     return (
-        <svg width={width} height={height} aria-label={alt}  fill="var(--color-white)">
+        <svg width={width} height={height} aria-label={alt}  fill="transparent">
             <use href={`#${id}`} />
         </svg>
     )
