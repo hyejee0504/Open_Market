@@ -7,11 +7,20 @@ display: inline-flex;
 align-items: center;
  cursor: pointer; 
  font-size: 1rem;
+ height: 15px;
+ padding-top: 5px;
+ 
 `
 export const CheckBox = styled.input.attrs({ type: "checkbox" })`
 appearance: none;
+/* padding-bottom: -10px; */
+margin: 0;
+/* padding-top: 10px; */
+height: 15px;
+
 
     &:after{
+        height: 15px;
         content: "   sdfsasdfasddfs";
         display: inline-block;
         color: transparent;

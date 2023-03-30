@@ -30,7 +30,7 @@ interface JoinState {
 
 
 const initialState: JoinState = {
-    joinStatus: "idle",
+    joinStatus: "idle", //유휴상태
   
     error: "",
     userType: "BUYER",
@@ -62,7 +62,7 @@ export const fetchPostCompanyNum = createAsyncThunk(
     async (company_registration_number: string, { rejectWithValue }) => {
       try {
         const data = { company_registration_number };
-        const result = await axios.post(`${BASE_URL}/accounts/signup/valid/`, data);
+        const result = await axios.post(`${BASE_URL}/accounts/signup/valid/company_registration_number/`, data);
         console.log(result.data);
         return result.data;
       } catch (error: any) {
@@ -94,7 +94,22 @@ export const fetchPostCompanyNum = createAsyncThunk(
         name: "joinSlice",
         initialState,
         reducers: {
-
+          resetAll: () => initialState,
+          resetName: (state) => {
+            state.nameStatus = "idle";
+            state.nameMessage = "";
+          },
+          resetCompanyNumber: (state) => {
+            state.companyNumberStatus = "idle";
+            state.companyMessage = "";
+          },
+          resetJoin: (state) => {
+            state.joinStatus = "idle";
+            state.error = "";
+          },
+          resetJoinUserType: (state, action) => {
+            state.userType = action.payload;
+          },
         },
         extraReducers: (builder) => {
             //아이디 검증
@@ -175,6 +190,8 @@ export const fetchPostCompanyNum = createAsyncThunk(
 
     
     export const getJoinUserType = (state: RootState) => state.join.userType;
+
+    export const { resetAll, resetName, resetCompanyNumber, resetJoin, resetJoinUserType } = joinSlice.actions;
 
     export default joinSlice.reducer;
 

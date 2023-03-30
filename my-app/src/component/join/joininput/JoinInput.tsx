@@ -40,13 +40,14 @@ function CommonInput ({ onClick, onChange, onButton, error, value, icon,...props
         autoComplete='off'
         ref={inputRef}
         error={error}
+        required
         />
         {onButton === false || onButton === true ? (
             <CommonBtn onClick={handleBtnClick} disabled={!onButton} width='122px'>
                 {props.name === "username" ? "중복확인" : "인증"}
             </CommonBtn>
         ) : null}
-        {value !== "" && error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
+        {value !== "" && error !== "" ? <S.ErrorMessage error={error}>{error}</S.ErrorMessage> : null}
     </S.CommonInput>
 
   )
@@ -82,6 +83,7 @@ function PhoneInput({onChange, onClick, value1, value2, value3, error, maxlength
         value={value2}
         maxLength={Number(4)}
         error={error}
+        required
         />
         <S.PhoneInput
         name="phone3"
@@ -90,9 +92,10 @@ function PhoneInput({onChange, onClick, value1, value2, value3, error, maxlength
         value={value3}
         maxLength={Number(4)}
         error={error}
+        required
         />
       </div>
-      {(value2 || value3 )&& error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
+      {(value2 || value3 )&& error !== "" ? <S.ErrorMessage error={error}>{error}</S.ErrorMessage> : null}
     </S.PhoneInputWrapper>
   )
 }
@@ -118,6 +121,8 @@ return(
       value={value1}
       autoComplete='off'
       width="218px"
+      error={error}
+      required
     />
     <span style={{padding : "0px 12px"}}>@</span>
     <S.Input 
@@ -128,6 +133,8 @@ return(
       value={value2}
       autoComplete='off'
       width="218px"
+      error={error}
+      required
     />
     {(value1 || value2 )&& error !== "" ? <S.ErrorMessage>{error}</S.ErrorMessage> : null}
   </div>

@@ -14,7 +14,10 @@ import {
   getJoinStatus,
   getJoinError,
   getJoinUserType,
-  JoinDataForm
+  JoinDataForm,
+  resetAll,
+  resetName,
+  resetCompanyNumber,
 } from "../../../features/joinSlice"
 import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
 import { AppDispatch } from '../../../store/store';
@@ -93,7 +96,7 @@ export default function JoinInputForm() {
   //아이디 변경 함수
   const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(nameStatus !== "idle"){
-
+      dispatch(resetName());
     }else{
       const {name, value} = e.target;
       const message = "* 아이디는 3-20자 이내의 영어 소문자, 대문자, 숫자만 가능합니다.";
@@ -108,11 +111,7 @@ export default function JoinInputForm() {
         setErrorMessage({...errorMessage, [name] : message});
         setOnUsernameBtn(false);
       }
-
-
     }
-  
-
   }
 
   //패스워드 변경 함수
@@ -206,7 +205,7 @@ export default function JoinInputForm() {
   //사업자 등록 번호 변경 함수
   const onChangeCompanyRegistrationNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(companyStatus !== "idle"){
-
+      dispatch(resetCompanyNumber());
     }else{
       const {name, value} = e.target;
       const message = "* 사업자 등록 번호는 숫자 10자로 입력해주세요.";
@@ -236,8 +235,6 @@ export default function JoinInputForm() {
   //체크 박스 확인
   const onChangeCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserFormValue({...userFormValue, "checkBox" : e.target.checked})   
-    console.log(e.target.checked);
-     
   }
 
 
@@ -259,7 +256,7 @@ export default function JoinInputForm() {
       onChange={onChangeUsername}
       value={userFormValue.username}
       onClick={checkUserNameVaild}
-      error={errorMessage.username}
+      error={nameMessage || errorMessage.username}
       />
       <CommonInput
       label='비밀번호'
@@ -321,9 +318,16 @@ export default function JoinInputForm() {
           value={sellerValues.storeName}
         />
       </>
-      <CheckBoxInput onChange={onChangeCheckbox} checked={userFormValue.checkBox} children={undefined}/> <span style={{color : "var(--color-grey)"}}>호두샵의 <Link to="/">이용약관</Link> 및 <Link to="/">개인정보처리방침</Link>에 대한 내용을 확인하였고 동의합니다.</span>
+      <div style={{display: "flex", alignItems: "flex-end"}}>
+        <CheckBoxInput onChange={onChangeCheckbox} checked={userFormValue.checkBox} children={undefined}/> 
+        <span style={{color : "var(--color-darkGrey)", lineHeight : "5px"}}>
+          호두샵의 
+          <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}>이용약관</Link> 및 
+          <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}>개인정보처리방침</Link>
+          에 대한 내용을 확인하였고 동의합니다.</span>
+      </div>
       
-      <CommonBtn type='submit'>가입하기</CommonBtn>
+      <CommonBtn type='submit' style={{marginTop: "10px"}}>가입하기</CommonBtn>
     </form>
   )
 }

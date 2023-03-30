@@ -14,18 +14,18 @@ const LabelText = styled.label`
     margin-bottom: 10px;
 `;
 
-const Input = styled.input<{ width?: string; icon?: string; error?:string; value?: string;}>`
+const Input = styled.input<{ width?: string; icon?: string; error?:string; value?: string; id?: string;}>`
     width: ${({width}) => (width ? width : "480px")};
     height: 54px;
-    border:  ${({error, value}) => (value !== "" && error !== "" ? "1px solid var(--color-red)" : "1px solid var(--color-grey)")};
+    border:  ${({error, value, id}) => (value !== "" && error !== "" && error !== "멋진 아이디네요 :)" && id !== "storeName" && error !=="사용 가능한 사업자등록번호입니다."? "1px solid var(--color-red)" : "1px solid var(--color-grey)")};
     border-radius: 5px;
     background: ${({icon}) => icon && `url(${icon}) no-repeat right 15px center`};
     padding: 0px 10px;
-    outline-color: ${({error, value}) => (value !== "" && error !== "" ? "var(--color-red)" : "var(--color-main)")};
+    outline-color: ${({error, value, id}) => (value !== "" && error !== ""&& error !== "멋진 아이디네요 :)" && id !== "storeName"&& error !=="사용 가능한 사업자등록번호입니다." ? "var(--color-red)" : "var(--color-main)")};
 `;
 
-const ErrorMessage = styled.p`
-    color: var(--color-red);
+const ErrorMessage = styled.p<{error?: string}>`
+    color: ${({error}) => (error !== "멋진 아이디네요 :)" && error !=="사용 가능한 사업자등록번호입니다." ? "var(--color-red)" : "var(--color-main)")};
     margin-top: 10px;
 `
 
