@@ -84,6 +84,7 @@ function PhoneInput({onChange, onClick, value1, value2, value3, error, maxlength
         maxLength={Number(4)}
         error={error}
         required
+        // autoComplete='off'
         />
         <S.PhoneInput
         name="phone3"
@@ -93,6 +94,7 @@ function PhoneInput({onChange, onClick, value1, value2, value3, error, maxlength
         maxLength={Number(4)}
         error={error}
         required
+        // autoComplete='off'
         />
       </div>
       {(value2 || value3 )&& error !== "" ? <S.ErrorMessage error={error}>{error}</S.ErrorMessage> : null}

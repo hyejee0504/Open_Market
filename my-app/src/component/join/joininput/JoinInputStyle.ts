@@ -1,8 +1,10 @@
 import styled, { FalseyValue } from "styled-components";
 
 const CommonInput = styled.div`
+    margin: 12px 0;
     button{
         margin-left: 10px;
+        
     }
 
 `;
@@ -22,6 +24,7 @@ const Input = styled.input<{ width?: string; icon?: string; error?:string; value
     background: ${({icon}) => icon && `url(${icon}) no-repeat right 15px center`};
     padding: 0px 10px;
     outline-color: ${({error, value, id}) => (value !== "" && error !== ""&& error !== "멋진 아이디네요 :)" && id !== "storeName"&& error !=="사용 가능한 사업자등록번호입니다." ? "var(--color-red)" : "var(--color-main)")};
+    
 `;
 
 const ErrorMessage = styled.p<{error?: string}>`
@@ -30,6 +33,7 @@ const ErrorMessage = styled.p<{error?: string}>`
 `
 
 const PhoneInputWrapper = styled.div`
+    margin: 12px 0;
     div{
         display: flex;
         gap: 12px;

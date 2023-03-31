@@ -237,15 +237,40 @@ export default function JoinInputForm() {
     setUserFormValue({...userFormValue, "checkBox" : e.target.checked})   
   }
 
-
-
   //회원가입 제출하기
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    if (nameStatus !== "succeeded") {
+      alert("아이디 인증을 완료해 주세요.");
+      return;
+    }
+    if (userType === "SELLER" && companyStatus !== "succeeded") {
+      alert("사업자 등록 번호 인증을 완료해 주세요.");
+      return;
+    }
+
+    const { username, password, checkPassword, name, phone1, phone2, phone3 } = userFormValue;
+    let userData: JoinDataForm = {
+      username,
+      password,
+      password2: checkPassword,
+      phone_number: `${phone1}${phone2}${phone3}`,
+      name,
+    };
+    if (userType === "SELLER") {
+      userData = {
+        company_registration_number: sellerValues.companyRegistrationNumber,
+        store_name: sellerValues.storeName,
+        ...userData,
+      };
+    }
+    console.log(userData);
+    dispatch(fetchPostJoin({ userType, userData }));
+
     }
 
   return (
+    
     <form onSubmit={onSubmit}>
       <CommonInput
       label='아이디'
@@ -321,9 +346,9 @@ export default function JoinInputForm() {
       <div style={{display: "flex", alignItems: "flex-end"}}>
         <CheckBoxInput onChange={onChangeCheckbox} checked={userFormValue.checkBox} children={undefined}/> 
         <span style={{color : "var(--color-darkGrey)", lineHeight : "5px"}}>
-          호두샵의 
+          호두샵의&nbsp; 
           <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}>이용약관</Link> 및 
-          <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}>개인정보처리방침</Link>
+          <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}> 개인정보처리방침</Link>
           에 대한 내용을 확인하였고 동의합니다.</span>
       </div>
       

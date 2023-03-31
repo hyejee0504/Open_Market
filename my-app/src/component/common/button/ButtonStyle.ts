@@ -16,6 +16,7 @@ const CommonBtn = styled.button<CommonBtnProps>`
     color: var(--color-white);
     height: 54px;
     border-radius: 5px;
+    margin-top: 35px;
     &:disabled{
         background-color: var(--color-grey);
         cursor: default;
