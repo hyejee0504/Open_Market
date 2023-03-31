@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const LoginInput = styled.input`
+    display: block;
     width: 480px;
     height: 60px;
     border: 0;

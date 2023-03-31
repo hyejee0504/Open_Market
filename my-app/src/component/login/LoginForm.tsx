@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import * as S from "./LoginFormStyle";
 import { CommonBtn } from '../common/button/Button';
+import ChangeUsertypeBtn from '../changeusertypebtn/ChangeUsertypeBtn';
 
 export default function LoginForm() {
 
@@ -27,25 +28,29 @@ export default function LoginForm() {
     }
 
   return (
-    <form onSubmit={onsubmit}>
-        <S.LoginInput
-        type='text'
-        name='username'
-        placeholder='아이디'
-        onChange={onchange}
-        value={userFormValue.username}
-        required
-        />
-        <S.LoginInput
-        type='password'
-        name='password'
-        placeholder='비밀번호'
-        onChange={onchange}
-        value={userFormValue.password}
-        required
-        />
-        <CommonBtn type='submit'>로그인</CommonBtn>
-
-    </form>
+    <>
+      <ChangeUsertypeBtn 
+      type="login" usertype='SELLER'/>
+      <form onSubmit={onsubmit}>
+          <S.LoginInput
+          type='text'
+          name='username'
+          placeholder='아이디'
+          onChange={onchange}
+          value={userFormValue.username}
+          required
+          />
+          <S.LoginInput
+          type='password'
+          name='password'
+          placeholder='비밀번호'
+          onChange={onchange}
+          value={userFormValue.password}
+          required
+          />
+          <CommonBtn type='submit'>로그인</CommonBtn>
+  
+      </form>
+    </>
   )
 }
