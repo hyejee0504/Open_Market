@@ -5,6 +5,7 @@ interface CommonBtnProps{
     width?: string;
     color?: string;
     disabled?: boolean;
+    marginTop?: string;
 
 
 }
@@ -16,7 +17,7 @@ const CommonBtn = styled.button<CommonBtnProps>`
     color: var(--color-white);
     height: 54px;
     border-radius: 5px;
-    margin-top: 35px;
+    margin-top: ${({marginTop}) => (marginTop ? marginTop : "0")};
     &:disabled{
         background-color: var(--color-grey);
         cursor: default;

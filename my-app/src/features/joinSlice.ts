@@ -73,7 +73,7 @@ export const fetchPostCompanyNum = createAsyncThunk(
 
   //회원가입 유효성 검증
   export const fetchPostJoin = createAsyncThunk(
-    "join/fetchPostJoin",
+    "join/fetchPostJoinBuyer",
     async ({userType, userData} : {userType : string; userData : JoinDataForm}, { rejectWithValue }) => 
     {
         const url = 
@@ -85,7 +85,8 @@ export const fetchPostCompanyNum = createAsyncThunk(
             console.log(result.data);
             return result.data;} 
         catch (error: any) {
-            return rejectWithValue(error.response);
+            console.log(error.response.data);
+            return rejectWithValue(error.response.data);
       }
     }
   );
@@ -107,9 +108,9 @@ export const fetchPostCompanyNum = createAsyncThunk(
             state.joinStatus = "idle";
             state.error = "";
           },
-          resetJoinUserType: (state, action) => {
+          setJoinUserType : (state, action) => {
             state.userType = action.payload;
-          },
+          }
         },
         extraReducers: (builder) => {
             //아이디 검증
@@ -165,7 +166,9 @@ export const fetchPostCompanyNum = createAsyncThunk(
             builder.addCase(fetchPostJoin.rejected, (state = initialState, action) => {
                 state.joinStatus = "failed";
                 if (action.payload) {
-                    state.error = action.payload as string;
+                  state.error = Object.values(action.payload as any)
+          .map((message: any) => message.join().toString())
+          .join("\n");
                   } else {
                     state.error = action.error.message || "Something is wrong in Join:<";
                   }
@@ -191,7 +194,7 @@ export const fetchPostCompanyNum = createAsyncThunk(
     
     export const getJoinUserType = (state: RootState) => state.join.userType;
 
-    export const { resetAll, resetName, resetCompanyNumber, resetJoin, resetJoinUserType } = joinSlice.actions;
+    export const { resetAll, resetName, resetCompanyNumber, resetJoin, setJoinUserType } = joinSlice.actions;
 
     export default joinSlice.reducer;
 

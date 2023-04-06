@@ -6,6 +6,10 @@ const LoginInput = styled.input`
     height: 60px;
     border: 0;
     border-bottom: 1px solid var(--color-grey);
+    outline: 0; 
+    &:focus{
+        border-bottom: 2px solid var(--color-main);
+    }
 `
 
 

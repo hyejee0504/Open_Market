@@ -11,6 +11,7 @@ interface CommonBtnProps{
     color?: string;
     disabled?: boolean;
     paddingLeft?: string;
+    marginTop?: string;
     
 }
 

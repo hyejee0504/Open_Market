@@ -28,8 +28,8 @@ export type SvgIconId =
 
 function SVGIcon({id, label=undefined, width=24, height=24, alt, fill = 'currentColor'}: SvgIconProps) {
     return (
-        <svg width={width} height={height} aria-label={alt}  fill="transparent">
-            <use href={`#${id}`} />
+        <svg display="inline-block" width={width} height={height} aria-label={alt}  fill="transparent">
+            <use display="inline-block" width={width} height={height} href={`#${id}`} />
         </svg>
     )
 }

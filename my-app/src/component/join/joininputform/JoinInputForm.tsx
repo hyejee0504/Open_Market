@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {CommonInput,  PhoneInput, EmailInput} from "../joininput/JoinInput"
+import React, {useState, useEffect} from 'react';
+import {CommonInput,  PhoneInput, EmailInput} from "../joininput/JoinInput";
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import checkOnIcon from "../../../asset/icon/icon-check-on.svg";
 import checkOffIcon from "../../../asset/icon/icon-check-off.svg";
@@ -20,22 +21,63 @@ import {
   resetCompanyNumber,
 } from "../../../features/joinSlice"
 import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
-import { AppDispatch } from '../../../store/store';
 import { CommonBtn } from '../../common/button/ButtonStyle';
 import { CheckBoxInput } from '../../common/checkbox/CheckBoxInput';
+import styled from 'styled-components';
+import ChangeUsertypeBtn from '../../common/changeusertypebtn/ChangeUsertypeBtn';
+
+const JoinWraaper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+`
+
+const Joinform = styled.form`
+  
+`
+
+const JoinInputBox = styled.div`
+width: 550px;
+  /* height : 920px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--color-grey);
+  border-radius: 10px;
+  padding: 40px 0;
+
+  
+`
+
+const AgreeWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  width: 500px;
+  margin: 50px 0;
+  span{
+    color : var(--color-darkGrey); 
+  }
+  span +Link{
+    font-weight : 700;
+    text-decoration: underline;
+    }
+`
+
 
 
 
 export default function JoinInputForm() {
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const userType = useAppSelector(getJoinUserType);
 
   const nameStatus = useAppSelector(getNameStatus);
   const companyStatus = useAppSelector(getCompanyStatus);
-  const registerStatus = useAppSelector(getJoinStatus);
-  const registerError = useAppSelector(getJoinError);
+  const joinStatus = useAppSelector(getJoinStatus);
+  const joinError = useAppSelector(getJoinError);
 
   const nameMessage = useAppSelector(getNameMessage);
   const companyMessage = useAppSelector(getCompanyMessage);
@@ -84,6 +126,18 @@ export default function JoinInputForm() {
 
   //판매자 추가 정보
   const [sellerValues, setSellerValues] = useState(initialSellerValues);
+
+  useEffect(() => {
+    //가입 하기 버튼 클릭후 성공 or 실패 경우
+    if (joinStatus === "succeeded") {
+      alert("가입이 완료되었습니다 :)");
+      dispatch(resetAll());
+      navigate("/account/login");
+    } else if (joinStatus === "failed") {
+      alert(joinError);
+      userFormValue.checkBox = false;
+    }
+  }, [joinStatus]);
 
   
   //아이디 중복확인 함수
@@ -251,11 +305,11 @@ export default function JoinInputForm() {
 
     const { username, password, checkPassword, name, phone1, phone2, phone3 } = userFormValue;
     let userData: JoinDataForm = {
-      username,
-      password,
+      username : username,
+      password : password,
       password2: checkPassword,
       phone_number: `${phone1}${phone2}${phone3}`,
-      name,
+      name : name,
     };
     if (userType === "SELLER") {
       userData = {
@@ -270,89 +324,104 @@ export default function JoinInputForm() {
     }
 
   return (
-    
-    <form onSubmit={onSubmit}>
-      <CommonInput
-      label='아이디'
-      type='text'
-      name='username'
-      onButton={onUsernameBtn}
-      width='346px'
-      onChange={onChangeUsername}
-      value={userFormValue.username}
-      onClick={checkUserNameVaild}
-      error={nameMessage || errorMessage.username}
-      />
-      <CommonInput
-      label='비밀번호'
-      type='password'
-      name='password'
-      onChange={onChangePassword}
-      error={errorMessage.password}
-      icon={userFormValue.password.length > 0 && errorMessage.password === "" ? checkOnIcon : checkOffIcon}
-      value={userFormValue.password}
-      />
-      <CommonInput
-      label='비밀번호 재확인'
-      type='password'
-      name='checkPassword'
-      onChange={onChangeCheckPassword}
-      error={errorMessage.checkPassword}
-      icon={userFormValue.checkPassword.length > 0 && errorMessage.checkPassword === "" ? checkOnIcon : checkOffIcon}
-      value={userFormValue.checkPassword}
-      />
-      <CommonInput
-      label='이름'
-      type='text'
-      name='name'
-      onChange={onChangeName}
-      error={errorMessage.name}
-      value={userFormValue.name}
-      />
-      <PhoneInput
-      onChange={onChangePhoneNumber}
-      onClick={onClickPhone}
-      value1={userFormValue.phone1}
-      value2={userFormValue.phone2}
-      value3={userFormValue.phone3}
-      error={errorMessage.phone}
-      />
-      <EmailInput
-        onChange={onChangeEmail}
-        value1={userFormValue.email1}
-        value2={userFormValue.email2}
-        error={errorMessage.email}
-      />
-      <>
-        <CommonInput
-          label="사업자 등록번호"
-          type="text"
-          name="companyRegistrationNumber"
-          width="346px"
-          onChange={onChangeCompanyRegistrationNumber}
-          onClick={checkCompanyRegistrationNumber}
-          onButton={onCompanyRegistrationBtn}
-          error={companyMessage || errorMessage.companyRegistrationNumber}
-          value={sellerValues.companyRegistrationNumber}
-        />
-        <CommonInput
-          label="스토어 이름"
-          type="text"
-          name="storeName"
-          onChange={onChangeStoreName}
-          value={sellerValues.storeName}
-        />
-      </>
-      <div style={{display: "flex", alignItems: "flex-end"}}>
-        <CheckBoxInput onChange={onChangeCheckbox} checked={userFormValue.checkBox} children={undefined}/> 
-        <span style={{color : "var(--color-darkGrey)", lineHeight : "5px"}}>
-          호두샵의&nbsp; 
-          <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}>이용약관</Link> 및 
-          <Link to="/" style={{fontWeight : "700", textDecoration: "underline"}}> 개인정보처리방침</Link>
-          에 대한 내용을 확인하였고 동의합니다.</span>
-      </div>
+<JoinWraaper>
+      <ChangeUsertypeBtn type='join' usertype={userType}/>
+      <Joinform onSubmit={onSubmit}>
+        <JoinInputBox>
+          <CommonInput
+          label='아이디'
+          type='text'
+          name='username'
+          onButton={onUsernameBtn}
+          width='346px'
+          onChange={onChangeUsername}
+          value={userFormValue.username}
+          onClick={checkUserNameVaild}
+          error={nameMessage || errorMessage.username}
+          />
+          <CommonInput
+          label='비밀번호'
+          type='password'
+          name='password'
+          onChange={onChangePassword}
+          error={errorMessage.password}
+          icon={userFormValue.password.length > 0 && errorMessage.password === "" ? checkOnIcon : checkOffIcon}
+          value={userFormValue.password}
+          />
+          <CommonInput
+          label='비밀번호 재확인'
+          type='password'
+          name='checkPassword'
+          onChange={onChangeCheckPassword}
+          error={errorMessage.checkPassword}
+          icon={userFormValue.checkPassword.length > 0 && errorMessage.checkPassword === "" ? checkOnIcon : checkOffIcon}
+          value={userFormValue.checkPassword}
+          />
+          <CommonInput
+          label='이름'
+          type='text'
+          name='name'
+          onChange={onChangeName}
+          error={errorMessage.name}
+          value={userFormValue.name}
+          />
+          <PhoneInput
+          onChange={onChangePhoneNumber}
+          onClick={onClickPhone}
+          value1={userFormValue.phone1}
+          value2={userFormValue.phone2}
+          value3={userFormValue.phone3}
+          error={errorMessage.phone}
+          />
+          <EmailInput
+            onChange={onChangeEmail}
+            value1={userFormValue.email1}
+            value2={userFormValue.email2}
+            error={errorMessage.email}
+          />
+         {userType === "SELLER" ? (
+          <>
+          <CommonInput
+            label="사업자 등록번호"
+            type="text"
+            name="companyRegistrationNumber"
+            width="346px"
+            onChange={onChangeCompanyRegistrationNumber}
+            onClick={checkCompanyRegistrationNumber}
+            onButton={onCompanyRegistrationBtn}
+            error={companyMessage || errorMessage.companyRegistrationNumber}
+            value={sellerValues.companyRegistrationNumber}
+          />
+          <CommonInput
+            label="스토어 이름"
+            type="text"
+            name="storeName"
+            onChange={onChangeStoreName}
+            value={sellerValues.storeName}
+          />
+        </>
+         ) : null}
+          
+        </JoinInputBox>
+        <AgreeWrapper>
+          <CheckBoxInput onChange={onChangeCheckbox} checked={userFormValue.checkBox} children={undefined}/> 
+          <span>
+            호두샵의&nbsp; 
+            <Link to="/">이용약관</Link> 및 
+            <Link to="/"> 개인정보처리방침</Link>
+            에 대한 내용을 확인하였고 동의합니다.</span>
+        </AgreeWrapper>
+        <CommonBtn type='submit' style={{marginTop: "10px"}}>가입하기</CommonBtn>
+        
+      </Joinform>
       
-      <CommonBtn type='submit' style={{marginTop: "10px"}}>가입하기</CommonBtn>
-    </form>
+</JoinWraaper>
   )
 }
+
+
+
+
+
+
+
