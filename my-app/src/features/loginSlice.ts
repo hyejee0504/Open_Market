@@ -4,36 +4,31 @@ import axios from "axios";
 
 const BASE_URL = "https://openmarket.weniv.co.kr";
 
-export interface LoginDataForm {
+const item = sessionStorage.getItem("token");
+const Token = item === null ? null : JSON.parse(item).token;
+const UserType = item === null ? null : JSON.parse(item).user_type;
+
+interface LoginDataForm {
     username: string;
     password: string;
     login_type?: string;
 }
 
 interface LoginState {
-    joinStatus: string;
-
+    status: string;
     error: string;
     userType: string;
-
-    nameStatus: string;
-    nameMessage: string;
-    companyNumberStatus: string;
-    companyMessage: string;
+    token?: string | null;
 }
 
 
 const initialState: LoginState = {
-    joinStatus: "idle", //유휴상태
-  
+    status: "idle",
     error: "",
-    userType: "BUYER",
-  
-    nameStatus: "idle",
-    nameMessage: "",
-    companyNumberStatus: "idle",
-    companyMessage: "",
-  }
+    userType: UserType ? UserType : "BUYER",
+    token: Token ? Token : "",
+}
+
 
 //로그인 요청
 export const fetchPostLogin = createAsyncThunk(
@@ -71,29 +66,35 @@ export const loginSlice = createSlice({
     name: "loginSlice",
         initialState,
         reducers: {
-          
+            setLoginUserType : (state, action) => {
+                state.userType = action.payload;
+              }
         },
         extraReducers: (builder) => {
             //로그인
             builder.addCase(fetchPostLogin.pending, (state = initialState) => {
-                state.joinStatus = "loading";
+                state.status = "loading";
             });
-            builder.addCase(fetchPostLogin.fulfilled, (state = initialState) => {
-                state.joinStatus = "succeeded";
+            builder.addCase(fetchPostLogin.fulfilled, (state = initialState, action) => {
+                state.status = "succeeded";
+                state.token = action.payload.token || "";
             });
             builder.addCase(fetchPostLogin.rejected, (state = initialState, action) => {
-                state.joinStatus = "failed";
+                state.status = "failed";
                 if (action.payload) {
-                  state.error = Object.values(action.payload as any)
-          .map((message: any) => message.join().toString())
-          .join("\n");
+                  state.error = Object.values(action.payload as any) && "아이디 또는 패스워드가 일치하지 않습니다.";
                   } else {
-                    state.error = action.error.message || "Something is wrong in Join:<";
+                    state.error = action.error.message || "Something is wrong in Login:<";
                   }
-
             });
-
-
-
         }  
 })
+
+export const getToken = (state: RootState) => state.login.token;
+export const getLoginStatus = (state: RootState) => state.login.status;
+export const getLoginError = (state: RootState) => state.login.error;
+export const getLoginUserType = (state: RootState) => state.login.userType;
+
+export const { setLoginUserType } = loginSlice.actions;
+
+export default loginSlice.reducer;

@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import joinReducer from "../features/joinSlice";
+import loginReducer from "../features/loginSlice"
 import * as reduxThunk from "redux-thunk/extend-redux";
 
 
 const store = configureStore({
     reducer : {
-        // login: loginReducer,
+        login: loginReducer,
         join: joinReducer,
         // seller: sellerReducer,
 
