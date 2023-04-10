@@ -11,7 +11,7 @@ const UserType = item === null ? null : JSON.parse(item).user_type;
 interface LoginDataForm {
     username: string;
     password: string;
-    login_type?: string;
+    login_type: string;
 }
 
 interface LoginState {
@@ -33,12 +33,12 @@ const initialState: LoginState = {
 //로그인 요청
 export const fetchPostLogin = createAsyncThunk(
     "login/fetchPostLogin",
-    async ({userData} : {userData : LoginDataForm}, { rejectWithValue }) => 
+    async ({ username, password, login_type }: LoginDataForm, { rejectWithValue }) => 
     {
         const url = `${BASE_URL}/accounts/login/`;
         
         try {
-            const data = userData;
+            const data = { username, password, login_type };
             const result = await axios.post(url, data);
             console.log(result.data);
 
@@ -87,6 +87,12 @@ export const loginSlice = createSlice({
                     state.error = action.error.message || "Something is wrong in Login:<";
                   }
             });
+            builder.addCase(logout.fulfilled, (state = initialState) => {
+                state.status = "idle";
+                state.error = "";
+                state.token = null;
+                state.userType = "BUYER";
+            })
         }  
 })
 

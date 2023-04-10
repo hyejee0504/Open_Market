@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import {
+  fetchPostLogin,
+  getLoginStatus,
+  getLoginError,
+  getLoginUserType,
+} from "../../features/loginSlice";
 import * as S from "./LoginFormStyle";
 import { CommonBtn } from '../common/button/Button';
 import ChangeUsertypeBtn from '../common/changeusertypebtn/ChangeUsertypeBtn';
@@ -13,8 +19,7 @@ const LoginFormWrapper = styled.div`
   align-items: center;
   
 `
-const Loginform = styled.div`
-  
+const Loginform = styled.form`
   width: 550px;
   height: 328px;
   border: 1px solid var(--color-grey);
@@ -29,7 +34,9 @@ export default function LoginForm() {
 
 
 
-    // const userType = useAppSelector(getJoinUserType);
+    const userType = useAppSelector(getLoginUserType);
+    const loginStatus = useAppSelector(getLoginStatus);
+    const loginError = useAppSelector(getLoginError)
 
     const initialValues = {
         username : "",
@@ -46,18 +53,20 @@ export default function LoginForm() {
     const onchange = (e : React.ChangeEvent<HTMLInputElement>) => {
         const {name , value} = e.target;
         setUserFormValue({...userFormValue, [name] : value})
-
     }
 
     //로그인 폼 제출
-    const onsubmit = () => {
+    const onsubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
+      const {username, password} = userFormValue;
+      const userData = {username, password, login_type: userType};
+      dispatch(fetchPostLogin(userData));
     }
 
   return (
     <LoginFormWrapper>
       <ChangeUsertypeBtn 
-      type="login" usertype='BUYER'/>
+      type="login" usertype={userType}/>
       <Loginform onSubmit={onsubmit}>
           <S.LoginInput
           type='text'
