@@ -1,12 +1,10 @@
-import styled, { FalseyValue } from "styled-components";
+import styled from "styled-components";
 
 const CommonInput = styled.div`
     margin: 12px 0;
     button{
         margin-left: 10px;
-        
     }
-
 `;
 
 const LabelText = styled.label`
@@ -56,7 +54,5 @@ const PhoneInput = styled.input<{ error?:string; value2?: string; value3?: strin
         margin: 0;
 }
 `
-
-
 
 export { CommonInput, LabelText, Input, ErrorMessage, PhoneInputWrapper, PhoneInput};

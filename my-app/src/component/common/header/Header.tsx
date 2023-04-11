@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
+import { getLoginUserType } from '../../../features/loginSlice';
+import { SVGIcon } from '../../icon/SVGIcon';
+import * as S from "../header/HeaderStyle"
 
 interface HeaderProps {
   usertype?: string;
@@ -11,7 +15,29 @@ const HeaderWrapper = styled.div`
   
 `
 
-export default function Header() {
+function Header({sellercenter, loginstatus,...props }: HeaderProps) {
+
+
+  const userType = useAppSelector(getLoginUserType);
+
+
+  return (
+    <HeaderWrapper>
+      <SVGIcon id='logo-hodu' width="124px" height="38px"/>
+      <S.SearchInput>
+        
+      </S.SearchInput>
+
+
+    </HeaderWrapper>
+  )
+}
+
+function SellerCenterHeader() {
+
+  const userType = useAppSelector(getLoginUserType);
+
+
   return (
     <HeaderWrapper>
 
@@ -20,3 +46,5 @@ export default function Header() {
     </HeaderWrapper>
   )
 }
+
+export {Header, SellerCenterHeader}

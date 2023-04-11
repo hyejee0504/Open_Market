@@ -1,3 +1,7 @@
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+
 export type SvgIconId =
   | 'icon-check-on'
   | 'icon-check-off'
@@ -24,13 +28,27 @@ export type SvgIconId =
   height?: number | string;
   fill?: string;
   alt?: string;
+  onClick?: () => void;
 }
 
+const SvgIcon = styled.svg<{value?:string}>`
+    cursor: ${({value}) => value === "logo-hodu" ? "pointer" : ""};
+`
+
 function SVGIcon({id, label=undefined, width=24, height=24, alt, fill = 'currentColor'}: SvgIconProps) {
+
+    const navigate = useNavigate();
+
+    const navigateHome = () => {
+        if(id === "logo-hodu"){
+            navigate("/")
+        }
+      }
+
     return (
-        <svg display="inline-block" width={width} height={height} aria-label={alt}  fill="transparent">
+        <SvgIcon display="inline-block" width={width} height={height} aria-label={alt}  fill="transparent" onClick={navigateHome} value={id}>
             <use display="inline-block" width={width} height={height} href={`#${id}`} />
-        </svg>
+        </SvgIcon>
     )
 }
 

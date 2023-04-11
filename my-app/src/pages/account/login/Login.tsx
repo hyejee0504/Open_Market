@@ -15,7 +15,7 @@ const LoginWrapper = styled.div`
 export default function Login() {
   return (
     <LoginWrapper>
-      <SVGIcon id='logo-hodu' width="238px" height="80px"/>
+      <SVGIcon id='logo-hodu' width="238px" height="80px" />
       <LoginForm/>
     </LoginWrapper>
   )
