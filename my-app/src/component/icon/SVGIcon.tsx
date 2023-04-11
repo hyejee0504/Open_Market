@@ -29,13 +29,15 @@ export type SvgIconId =
   fill?: string;
   alt?: string;
   onClick?: () => void;
+  marginRight?: string;
 }
 
-const SvgIcon = styled.svg<{value?:string}>`
+const SvgIcon = styled.svg<{value?:string; marginRight?:string}>`
     cursor: ${({value}) => value === "logo-hodu" ? "pointer" : ""};
+    margin-right: ${({marginRight}) => marginRight};
 `
 
-function SVGIcon({id, label=undefined, width=24, height=24, alt, fill = 'currentColor'}: SvgIconProps) {
+function SVGIcon({id, label=undefined, width=24, height=24, alt, fill = 'currentColor', marginRight}: SvgIconProps) {
 
     const navigate = useNavigate();
 
@@ -46,7 +48,7 @@ function SVGIcon({id, label=undefined, width=24, height=24, alt, fill = 'current
       }
 
     return (
-        <SvgIcon display="inline-block" width={width} height={height} aria-label={alt}  fill="transparent" onClick={navigateHome} value={id}>
+        <SvgIcon display="inline-block" width={width} height={height} aria-label={alt} marginRight={marginRight}fill="transparent" onClick={navigateHome} value={id}>
             <use display="inline-block" width={width} height={height} href={`#${id}`} />
         </SvgIcon>
     )
