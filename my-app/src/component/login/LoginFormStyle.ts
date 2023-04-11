@@ -11,7 +11,9 @@ const LoginInput = styled.input`
         border-bottom: 2px solid var(--color-main);
     }
 `
+const ErrorMessage = styled.p`
+    color: var(--color-red);
+    margin-top: 10px;
+`
 
-
-
-export {LoginInput}
+export {LoginInput, ErrorMessage}

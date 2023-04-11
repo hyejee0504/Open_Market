@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 import {
   fetchPostLogin,
@@ -31,6 +31,7 @@ export default function LoginForm() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const passwordRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
 
 
@@ -38,14 +39,27 @@ export default function LoginForm() {
     const loginStatus = useAppSelector(getLoginStatus);
     const loginError = useAppSelector(getLoginError)
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const initialValues = {
         username : "",
         password : "",
-    }
+    };
 
     //유저 정보 상태
   const [userFormValue, setUserFormValue] = useState(initialValues);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (loginStatus === "failed") {
+      setErrorMessage(loginError);
+      passwordRef.current.value = "";
+      // passwordRef.current.focus();
+    }
+    if (loginStatus === "succeeded") {
+      setUserFormValue(initialValues);
+      navigate("/");
+    }
+  }, [initialValues, loginError, loginStatus, navigate]);
 
 
 
@@ -57,7 +71,7 @@ export default function LoginForm() {
 
     //로그인 폼 제출
     const onsubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
+      e.preventDefault();
       const {username, password} = userFormValue;
       const userData = {username, password, login_type: userType};
       dispatch(fetchPostLogin(userData));
@@ -82,8 +96,10 @@ export default function LoginForm() {
           placeholder='비밀번호'
           onChange={onchange}
           value={userFormValue.password}
+          ref={passwordRef}
           required
           />
+          {errorMessage ? <S.ErrorMessage>{errorMessage}</S.ErrorMessage> : null}
           <CommonBtn type='submit' marginTop="72px">로그인</CommonBtn>
   
       </Loginform>

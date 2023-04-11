@@ -137,7 +137,7 @@ export default function JoinInputForm() {
       alert(joinError);
       userFormValue.checkBox = false;
     }
-  }, [joinStatus]);
+  }, [dispatch, joinError, joinStatus, navigate, userFormValue]);
 
   
   //아이디 중복확인 함수

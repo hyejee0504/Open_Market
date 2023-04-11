@@ -16,7 +16,7 @@ export const ToggleBtn = styled.button<ToggleBtnProps>`
     border: 1px solid var(--color-grey);
     border-radius: 10px 10px 0 0;
     border-bottom: 0;
-    background: ${({value}) => (value === "off" ? "var(--color-brightGrey)" : "var(--color-white)")};
+    background-color: ${({value}) => (value === "off" ? "var(--color-brightGrey)" : "var(--color-white)")};
     
     /* &:after{
         content: "abc";
@@ -28,7 +28,7 @@ export const ToggleBtn = styled.button<ToggleBtnProps>`
         position: absolute;
         /* top: ${({value}) => (value === "off" ? "0" : "60px")}; */
         /* left: ${({value, usertype}) => (value === "on" && usertype === "SELLER" ? "275px" : "0px")}; */
-    } */
+    
 
 
 `
