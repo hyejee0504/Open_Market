@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import joinReducer from "../features/joinSlice";
 import loginReducer from "../features/loginSlice"
 import * as reduxThunk from "redux-thunk/extend-redux";
+import productsSlice from "../features/productsSlice";
 
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         login: loginReducer,
         join: joinReducer,
         // seller: sellerReducer,
+        products: productsSlice,
 
     }
 });

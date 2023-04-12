@@ -5,12 +5,12 @@ import {
   getLoginStatus,
   getLoginError,
   getLoginUserType,
-} from "../../features/loginSlice";
+} from "../../../features/loginSlice";
 import * as S from "./LoginFormStyle";
-import { CommonBtn } from '../common/button/Button';
-import ChangeUsertypeBtn from '../common/changeusertypebtn/ChangeUsertypeBtn';
+import { CommonBtn } from '../../common/button/Button';
+import ChangeUsertypeBtn from '../../common/changeusertypebtn/ChangeUsertypeBtn';
 import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../hook/hooks';
+import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
 
 
 const LoginFormWrapper = styled.div`

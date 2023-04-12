@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 const FooterWrapper = styled.div`
+ 
     background: var(--color-brightGrey);
     padding: 50px 320px;
+   
 
 `
 

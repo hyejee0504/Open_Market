@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginForm from '../../../component/login/LoginForm';
+import LoginForm from '../../../component/login/loginform/LoginForm';
 import styled from 'styled-components';
 import { SVGIcon } from '../../../component/icon/SVGIcon';
 

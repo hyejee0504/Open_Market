@@ -5,8 +5,9 @@ const HeaderWrapper = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 20px 320px;
+    padding: 20px 320px;
     gap: 420px;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.1);
 `
 
 const SearchWrapper = styled.div`

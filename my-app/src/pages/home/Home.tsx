@@ -1,12 +1,12 @@
 import React from 'react'
-import {Header} from '../../component/common/header/Header';
-import Footer from '../../component/common/footer/Footer';
+import Carousel from '../../component/home/carousel/Carousel';
+import ProductsList from '../../component/home/productslist/ProductsList';
 
 export default function Home() {
   return (
-    <>
-      <Header />
-      <Footer />
-    </>
+      <main>
+        <Carousel />
+        <ProductsList/>
+      </main>
   )
 }
