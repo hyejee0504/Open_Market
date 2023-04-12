@@ -1,6 +1,6 @@
-import React,  {useState} from 'react';
+import React from 'react';
 import * as S from "./CheckBoxInputStyle";
-import { SVGIcon } from '../../icon/SVGIcon';
+// import { SVGIcon } from '../../icon/SVGIcon';
 
 interface CheckBoxInputProps{
     children: React.ReactNode;
@@ -17,10 +17,6 @@ function CheckBoxInput({checked, onChange} : CheckBoxInputProps) {
         <S.CheckBox
             checked={checked}
             onChange={onChange}/>
-        {/* <S.Box checked={checked}>
-            <S.CheckBoxIcon checked={checked} />
-            <S.CheckBoxIconFill checked={checked}/>
-        </S.Box> */}
             
     </S.CheckBoxContainer>
     
