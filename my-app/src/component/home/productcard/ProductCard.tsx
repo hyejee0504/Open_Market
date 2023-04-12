@@ -1,6 +1,6 @@
 import React from 'react';
 import { Product } from '../../../features/productsSlice';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import * as S from "./ProductCardStyle";
 import { SVGIcon } from '../../icon/SVGIcon';
 

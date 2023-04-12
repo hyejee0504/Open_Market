@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from '../../../hook/hooks';
+// import styled from 'styled-components';
+import { useAppSelector } from '../../../hook/hooks';
 import { getLoginUserType } from '../../../features/loginSlice';
 import { SVGIcon } from '../../icon/SVGIcon';
 import * as S from "../header/HeaderStyle"
@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 
-function Header({sellercenter, loginstatus,...props }: HeaderProps) {
+function Header({...props}: HeaderProps) {
 
 
   const userType = useAppSelector(getLoginUserType);
@@ -81,7 +81,7 @@ function Header({sellercenter, loginstatus,...props }: HeaderProps) {
 
 function SellerCenterHeader() {
 
-  const userType = useAppSelector(getLoginUserType);
+  // const userTyp?e = useAppSelector(getLoginUserType);
 
 
   return (

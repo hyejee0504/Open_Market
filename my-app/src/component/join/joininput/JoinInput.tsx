@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import * as S from "./JoinInputStyle";
 import { CommonBtn } from '../../common/button/ButtonStyle';
-import { SVGIcon } from '../../icon/SVGIcon';
+// import { SVGIcon } from '../../icon/SVGIcon';
 import { PhoneSelectInput } from '../phoneselectinput/PhoneSelectInput';
 
 //JoinInput에 들어가는 props의 자료형을 정함.
