@@ -77,7 +77,7 @@ export const productsSlice = createSlice({
                 state.status = "succeeded";
                 state.error = "";
                 state.products = action.payload.results;
-                state.pageNumber = Math.floor(Number(action.payload.count) / 24) + 1;
+                state.pageNumber = Math.floor(Number(Number(action.payload.count) / 15)) + 1;
                 
             });
             builder.addCase(fetchGetProducts.rejected, (state = initialState, action) => {
