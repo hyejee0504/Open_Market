@@ -65,25 +65,25 @@ export default function Carousel() {
   };
 
   return (
-    <>
     <S.CarouselWrapper>
-      {thumbnail.map((item, index) => (
-        <S.Carousel
-          key={index}
-          className={slideIndex === index ? 'active' : ""}
-          style={
-            slideIndex === 3
-              ? { transform: 'translateX(0px)' }
-              : { transform: `translateX(-${slideIndex}00%)` }
-          }
-        >
-          <S.Carouselimg
-            src={item}
-            alt=""
-          />
-        </S.Carousel>
-      ))}
-       </S.CarouselWrapper>
+      <S.CarouselImgWindow>
+        {thumbnail.map((item, index) => (
+          <S.Carousel
+            key={index}
+            className={slideIndex === index ? 'active' : ""}
+            style={
+              slideIndex === 3
+                ? { transform: 'translateX(0px)' }
+                : { transform: `translateX(-${slideIndex}00%)` }
+            }
+          >
+            <S.Carouselimg
+              src={item}
+              alt=""
+            />
+          </S.Carousel>
+        ))}
+         </S.CarouselImgWindow>
 
       {slideIndex !== 0 && (
         <PageBtn moveSlide={prevSlide} direction="prev" />
@@ -101,7 +101,7 @@ export default function Carousel() {
           />
         ))}
       </S.IconWrap>
-      </>
+      </S.CarouselWrapper>
    
   );
 };

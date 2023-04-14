@@ -6,7 +6,7 @@ const Carouselimg = styled.img`
 
 `
 
-const CarouselWrapper = styled.div`
+const CarouselImgWindow = styled.div`
     display: flex;
     flex-wrap: nowrap;
     width:1000px;
@@ -40,6 +40,16 @@ display: inline-block;
 const IconWrap = styled.div`
     width: 200px;
     height: 100px;
+    position: absolute;
+    display: inline-block;
+    bottom: -5%;
+    left: 50%;
 `
 
-export {Carouselimg, CarouselWrapper, Carousel, PageIcon, IconWrap}
+const CarouselWrapper = styled.div`
+  position: relative;
+  box-shadow: inset 0px -4px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px 0px;
+`
+
+export {Carouselimg, CarouselImgWindow, Carousel, PageIcon, IconWrap, CarouselWrapper}
