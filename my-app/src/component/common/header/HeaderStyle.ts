@@ -55,6 +55,9 @@ const IconWrapper = styled.div`
     justify-content: center;
     width: 60px;
     height: 60px;
+    &:hover{
+        cursor: pointer;
+    }
 `
 
 const SellerCenterBtn = styled.button`

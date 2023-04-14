@@ -22,6 +22,10 @@ interface ProductsState {
     error: string;
     products: Product[];
     pageNumber: number;
+
+    searchStatus: string;
+    searchError: string;
+    searchProducts: Product[];
 }
 
 
@@ -30,6 +34,10 @@ const initialState: ProductsState = {
     error: "",
     products:[],
     pageNumber:1,
+
+    searchStatus: "idle",
+    searchError:  "",
+    searchProducts: [],
 }
 
 
@@ -45,6 +53,15 @@ export const fetchGetProducts = createAsyncThunk(
 
     });
 
+export const fetchGetSearchProducts = createAsyncThunk(
+    "products/fetchGetSearchProducts",
+    async (search: string) => {
+        const url = `${BASE_URL}/products/?search=${search}`;
+        const result = await axios.get(url);
+        return result.data;
+    }
+)
+
 //state 저장
 export const productsSlice = createSlice({
         name: "products",
@@ -52,6 +69,7 @@ export const productsSlice = createSlice({
         reducers: {},
         //redux thunk 관리 
         extraReducers: (builder) => {
+            //전체 상품 불러오기
             builder.addCase(fetchGetProducts.pending, (state = initialState) => {
                 state.status = "loading";
             });
@@ -67,6 +85,21 @@ export const productsSlice = createSlice({
                 state.error = action.error.message || "Something is wrong";
                 state.products = [];
             });
+            //검색한 상품 불러오기
+            builder.addCase(fetchGetSearchProducts.pending, (state = initialState) => {
+                state.searchStatus = "loading";
+            });
+            builder.addCase(fetchGetSearchProducts.fulfilled, (state = initialState, action) => {
+                state.searchStatus = "succeeded";
+                state.searchError = "";
+                state.searchProducts = action.payload.results;
+                
+            });
+            builder.addCase(fetchGetSearchProducts.rejected, (state = initialState, action) => {
+                state.searchStatus = "failed";
+                state.searchError = action.error.message || "Something is wrong";
+                state.searchProducts = [];
+            });
         }  
 })
 
@@ -75,6 +108,13 @@ export const productsSlice = createSlice({
 export const getAllProducts = (state: RootState) => state.products.products;
 export const getProductsStatus = (state: RootState) => state.products.status;
 export const getPageNumber = (state: RootState) => state.products.pageNumber;
+
+export const getSearchProducts = (state: RootState) => state.products.searchProducts;
+export const getSearchStatus = (state: RootState) => state.products.searchStatus;
+
+
+
+
 
 
 

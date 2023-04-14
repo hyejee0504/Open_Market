@@ -7,6 +7,7 @@ import Cart from "../pages/cart/Cart";
 import Order from "../pages/order/Order";
 import ProductDetail from "../pages/products/productdetail/ProductDetail";
 import { MainLayout } from "../component/layout/Layout";
+import Search from "../pages/search/Search";
 
 
 export default function Router() {
@@ -15,6 +16,7 @@ export default function Router() {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
+                <Route path="/search" element={<Search />} />
                 <Route path="/products/" element={<Outlet />}>
                     <Route path=":id/" element={<ProductDetail />}/>
                     <Route path="*" element={<Error />}/>

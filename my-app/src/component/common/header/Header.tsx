@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 // import styled from 'styled-components';
-import { useAppSelector } from '../../../hook/hooks';
+import { useAppSelector} from '../../../hook/hooks';
 import { getLoginUserType } from '../../../features/loginSlice';
 import { SVGIcon } from '../../icon/SVGIcon';
 import * as S from "../header/HeaderStyle"
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   usertype?: string;
@@ -13,8 +14,8 @@ interface HeaderProps {
 
 
 function Header({...props}: HeaderProps) {
-
-
+  const navigate = useNavigate();
+  const Token = sessionStorage.getItem("token");
   const userType = useAppSelector(getLoginUserType);
 
   const [searchContent, setSearchContent] = useState("");
@@ -27,7 +28,7 @@ function Header({...props}: HeaderProps) {
   //검색창 검색 버튼 함수
   const handleSearch = () => {
     if(searchContent !== ""){
-
+      navigate("/search", {state: searchContent});
     }
   }
 
@@ -53,10 +54,18 @@ function Header({...props}: HeaderProps) {
             <SVGIcon id='icon-shopping-cart' width="25px" height= "25px" alt='장바구니아이콘'/>
             <S.IconTxt>장바구니</S.IconTxt>
           </S.IconWrapper>
-          <S.IconWrapper>
-            <SVGIcon id='icon-user' width="25px" height= "25px" alt='유저아이콘'/>
-            <S.IconTxt>마이페이지</S.IconTxt>
-          </S.IconWrapper>
+          {Token === null ? 
+            <S.IconWrapper onClick={() => {navigate("/account/login")}}>
+              <SVGIcon id='icon-user' width="25px" height= "25px" alt='유저아이콘'/>
+              <S.IconTxt>로그인</S.IconTxt>
+            </S.IconWrapper>
+        :
+            <S.IconWrapper>
+              <SVGIcon id='icon-user' width="25px" height= "25px" alt='유저아이콘'/>
+              <S.IconTxt>마이페이지</S.IconTxt>
+            </S.IconWrapper>
+        }
+          
         </S.BuyerWrapper>
         :
         <>
