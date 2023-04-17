@@ -47,6 +47,7 @@ export const fetchGetProducts = createAsyncThunk(
     "products/fetchGetProducts",
     async (page: number) => {
     
+        // const url = `${BASE_URL}/products/`;
         const url = `${BASE_URL}/products/?page=${page}`;
         const result = await axios.get(url);
         return result.data;

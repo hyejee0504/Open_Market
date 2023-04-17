@@ -29,7 +29,7 @@ export default function ProductsList() {
 
     
     
-
+      console.log(products);
 
   return (
         <>
