@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as S from "./PagenationBtnStyle"
 
 interface PagenationBtnProps{
@@ -11,10 +11,36 @@ export default function PagenationBtn({pageNumber, setPage} : PagenationBtnProps
 
   const [nowPage, setNowPage] = useState(1);
 
+  const [pageAllNumber, setPageAllNumber] = useState(1);
+  const [nowPageNumber, setNowPageNumber] = useState(0);
+
+  useEffect(() => {
+    if(pageNumber > 5){
+      setPageAllNumber(Math.floor(pageNumber/5)+1);
+    }
+  }, [pageNumber])
+
+  const handlePrevPage = () => {
+    if(nowPageNumber === 0){
+      setNowPageNumber(0);
+    }else{
+      setNowPageNumber(prev => prev-1);
+    }
+  }
+
+  const handleNextPage = () => {
+    if(nowPageNumber/5 === pageAllNumber-1){
+      setNowPageNumber(nowPageNumber);
+    }else{
+      setNowPageNumber(prev => prev+5);
+    }
+  }
+
 
   return (
     <>
-    {Array.from({ length: pageNumber }).map((item, index) => (
+    <S.PrevBtn onClick={handlePrevPage}>Prev</S.PrevBtn>
+    {Array.from({ length: 5 }).map((item, index) => (
       <S.PageNumberBtn
       key={index} 
       onClick={() => {
@@ -23,9 +49,10 @@ export default function PagenationBtn({pageNumber, setPage} : PagenationBtnProps
       }} 
       on={nowPage === Number(index + 1) ? "on" : "off"}
       >
-        {index+1}
+        {index+1+nowPageNumber}
       </S.PageNumberBtn>
     ))}
+    <S.NextBtn onClick={handleNextPage}>Next</S.NextBtn>
     </>
   )
 }

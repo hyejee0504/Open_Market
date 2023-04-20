@@ -9,5 +9,10 @@ const PageNumberBtn = styled.button<{on:string}>`
     border-radius: 50%;
     margin: 10px;
 `
+const PrevBtn = styled.button`
+`
 
-export {PageNumberBtn, }
+const NextBtn = styled.button`
+`
+
+export {PageNumberBtn, PrevBtn, NextBtn}

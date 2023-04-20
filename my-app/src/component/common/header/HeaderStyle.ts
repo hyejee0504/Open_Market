@@ -75,6 +75,7 @@ justify-content: center;
 const BuyerWrapper = styled.div`
     display: flex;
     gap: 25px;
+    position: relative;
 `
 
 export {SearchInput, SearchBtn, SearchWrapper, UserWrapper, IconTxt, IconWrapper, SellerCenterBtn, HeaderWrapper, BuyerWrapper}

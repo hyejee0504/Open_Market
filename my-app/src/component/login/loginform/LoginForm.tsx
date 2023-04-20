@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   fetchPostLogin,
   getLoginStatus,
@@ -103,6 +103,15 @@ export default function LoginForm() {
           <CommonBtn type='submit' marginTop="72px">로그인</CommonBtn>
   
       </Loginform>
+      <S.LoginList>
+        <li>
+          <Link to={"/account/join"}>회원가입</Link>
+        </li>
+        <li>
+          <Link to={""}>비밀번호 찾기</Link>
+        </li>
+      </S.LoginList>
+      
     </LoginFormWrapper>
   )
 }

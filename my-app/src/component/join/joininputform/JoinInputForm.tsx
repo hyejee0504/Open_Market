@@ -34,6 +34,10 @@ const JoinWraaper = styled.div`
 `
 
 const Joinform = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   
 `
 
@@ -53,7 +57,6 @@ width: 550px;
 const AgreeWrapper = styled.div`
   display: flex;
   align-items: flex-end;
-  width: 500px;
   margin: 50px 0;
   span{
     color : var(--color-darkGrey); 

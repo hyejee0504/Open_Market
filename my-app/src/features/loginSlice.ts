@@ -59,6 +59,16 @@ export const fetchPostLogin = createAsyncThunk(
   export const logout = createAsyncThunk(
     "login/logout", async () => {
         sessionStorage.clear();
+        const url = `${BASE_URL}/accounts/logout/`;
+        
+        try {
+            const result = await axios.post(url);
+            console.log(result.data);
+            return result.data;} 
+        catch (error: any) {
+            console.log(error.response.data.FAIL_Message);
+            return rejectWithValue(error.response.data.FAIL_Message);
+      }
     }
   )
 
@@ -104,3 +114,7 @@ export const getLoginUserType = (state: RootState) => state.login.userType;
 export const { setLoginUserType } = loginSlice.actions;
 
 export default loginSlice.reducer;
+function rejectWithValue(FAIL_Message: any): any {
+    throw new Error("Function not implemented.");
+}
+

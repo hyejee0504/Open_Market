@@ -16,4 +16,21 @@ const ErrorMessage = styled.p`
     margin-top: 10px;
 `
 
-export {LoginInput, ErrorMessage}
+const LoginList = styled.ul`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    li{
+        padding: 0 20px;
+        &:first-child{
+            border-right: 2px solid var(--color-darkGrey);
+        }
+        &:hover{
+            color: var(--color-darkGrey);
+            text-decoration: underline;
+        }
+    }
+`
+
+export {LoginInput, ErrorMessage, LoginList}

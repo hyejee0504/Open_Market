@@ -6,6 +6,7 @@ import { SVGIcon } from '../../icon/SVGIcon';
 import * as S from "../header/HeaderStyle"
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../../../features/loginSlice';
+import ArrowModal from '../arrowmodal/ArrowModal';
 
 interface HeaderProps {
   usertype?: string;
@@ -55,22 +56,25 @@ function Header({...props}: HeaderProps) {
       <S.UserWrapper>
         {userType === "BUYER" ?
         <S.BuyerWrapper>
-          <S.IconWrapper>
+          <S.IconWrapper onClick={() => {navigate("/cart/:username")}}>
             <SVGIcon id='icon-shopping-cart' width="25px" height= "25px" alt='장바구니아이콘'/>
             <S.IconTxt>장바구니</S.IconTxt>
           </S.IconWrapper>
-          {Token === "" ? 
+          {Token === "" || Token === null ? 
             <S.IconWrapper onClick={() => {navigate("/account/login")}}>
               <SVGIcon id='icon-user' width="25px" height= "25px" alt='유저아이콘'/>
               <S.IconTxt>로그인</S.IconTxt>
             </S.IconWrapper>
         :
-            <S.IconWrapper onClick={() => {setOnModal(!onModal)}}>
-              <SVGIcon id='icon-user' width="25px" height= "25px" alt='유저아이콘'/>
-              <S.IconTxt>마이페이지</S.IconTxt>
-            </S.IconWrapper>
-
+            <>
+              <S.IconWrapper onClick={() => {setOnModal(!onModal)}}>
+                <SVGIcon id='icon-user' width="25px" height= "25px" alt='유저아이콘'/>
+                <S.IconTxt>마이페이지</S.IconTxt>
+              </S.IconWrapper>
+              <ArrowModal on={onModal} />
+            </>
         }
+
           
         </S.BuyerWrapper>
         :
