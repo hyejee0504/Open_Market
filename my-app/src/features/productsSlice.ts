@@ -113,9 +113,9 @@ export const getPageNumber = (state: RootState) => state.products.pageNumber;
 export const getSearchProducts = (state: RootState) => state.products.searchProducts;
 export const getSearchStatus = (state: RootState) => state.products.searchStatus;
 
-
-
-
+export const getProductID = (state: RootState, productID: number) => {
+    return state.products.products.find((product) => product.product_id === productID);
+}
 
 
 

@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 // import styled from 'styled-components';
-import { useAppSelector} from '../../../hook/hooks';
+import { useAppDispatch, useAppSelector} from '../../../hook/hooks';
 import { getLoginUserType } from '../../../features/loginSlice';
 import { SVGIcon } from '../../icon/SVGIcon';
 import * as S from "../header/HeaderStyle"
 import { useNavigate } from 'react-router-dom';
 import { getToken } from '../../../features/loginSlice';
 import ArrowModal from '../arrowmodal/ArrowModal';
+import { checkOpenModal, openModal } from '../../../features/modalSlice';
+import Modal from '../modal/Modal';
 
 interface HeaderProps {
   usertype?: string;
@@ -17,9 +19,11 @@ interface HeaderProps {
 
 function Header({...props}: HeaderProps) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   // const Token = sessionStorage.getItem("token");
   const Token = useAppSelector(getToken);
   const userType = useAppSelector(getLoginUserType);
+  const modal = useAppSelector(checkOpenModal);
 
   const [searchContent, setSearchContent] = useState("");
   const [onModal, setOnModal] = useState(false);
@@ -36,13 +40,19 @@ function Header({...props}: HeaderProps) {
     }
   }
 
+  const needLoginModal = (
+    <Modal onClickYesBtn={()=>{navigate("/account/login")}}>
+      로그인이 필요한 서비스 입니다. <br/>
+      로그인 하시겠습니까?
+    </Modal>
+  );
+
   
 
   return (
-
-
+    <>
+    {(Token === null || Token === "" ) && modal === true ? needLoginModal : null}
     <S.HeaderWrapper>
-      
       <S.SearchWrapper>
       <SVGIcon id='logo-hodu' width="124px" height="38px"/>
         <S.SearchInput
@@ -56,7 +66,7 @@ function Header({...props}: HeaderProps) {
       <S.UserWrapper>
         {userType === "BUYER" ?
         <S.BuyerWrapper>
-          <S.IconWrapper onClick={() => {navigate("/cart/:username")}}>
+          <S.IconWrapper onClick={Token === null || Token === "" ? () => {dispatch(openModal("예"))} : () => {navigate("/cart/:username")}}>
             <SVGIcon id='icon-shopping-cart' width="25px" height= "25px" alt='장바구니아이콘'/>
             <S.IconTxt>장바구니</S.IconTxt>
           </S.IconWrapper>
@@ -90,11 +100,8 @@ function Header({...props}: HeaderProps) {
         </>
         }
       </S.UserWrapper>
-
-
-
-
     </S.HeaderWrapper>
+    </>
   )
 }
 

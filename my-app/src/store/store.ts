@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import joinReducer from "../features/joinSlice";
 import loginReducer from "../features/loginSlice"
-import productsSlice from "../features/productsSlice";
+import productsReducer from "../features/productsSlice";
+import modalReducer from "../features/modalSlice";
 
 
 const store = configureStore({
@@ -9,7 +10,8 @@ const store = configureStore({
         login: loginReducer,
         join: joinReducer,
         // seller: sellerReducer,
-        products: productsSlice,
+        products: productsReducer,
+        modal: modalReducer,
 
     }
 });

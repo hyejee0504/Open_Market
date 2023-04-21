@@ -14,7 +14,7 @@ export default function ProductCard({product} : {product: Product}) {
     }
     
   return (
-    <S.ProductCardWrapper onClick={() => navigate(`products/${product.product_id}`)}>
+    <S.ProductCardWrapper onClick={() => navigate(`products/${product.product_id}`, {state: product.product_id})}>
           <S.Thumbnailimg url={product.image}>
             <div>
                 <S.CartBtn type='button' onClick={handleCart}>
