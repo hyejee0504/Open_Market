@@ -4,6 +4,7 @@ const ProductWrapper = styled.section`
     display: grid;
   grid-template-columns: 1fr 1fr;
     gap: 50px;
+    margin: 80px;
 `
 const ImgWrapper = styled.div`
     width: 100%;
@@ -79,4 +80,23 @@ const TotalPriceTxt = styled.p`
 
 `
 
-export {ProductStoreName, ProductName, ProductPrice, ProductImg, Shipping, ProductStock, TotalPriceTxt, ImgWrapper, ProductWrapper, DetailWrapper, InfoWrapper, ShipInfoWrapper}
+const ButtonWrapper = styled.div`
+    display: flex;
+    gap: 14px;
+`
+
+const PriceWrapper = styled.div`
+
+`
+
+const TotalPriceWrapper = styled.div`
+`
+
+const ResultAmountTxt = styled.p`
+
+`
+
+const TotalPrice = styled.p`
+
+`
+export {ProductStoreName, ProductName, ProductPrice, ProductImg, Shipping, ProductStock, TotalPriceTxt, ImgWrapper, ProductWrapper, DetailWrapper, InfoWrapper, ShipInfoWrapper, ButtonWrapper, PriceWrapper, TotalPriceWrapper, ResultAmountTxt, TotalPrice}
